@@ -1,193 +1,234 @@
-Software Sauna Code Challenge
+# [Software Sauna](https://www.softwaresauna.com/) Code Challenge
 
 Follow a path of characters & collect letters:
 
-    Start at the character @
-    Follow the path
-    Collect letters
-    Stop when you reach the character x
+- Start at the character `@`
+- Follow the path
+- Collect letters
+- Stop when you reach the character `x`
 
-Assignment
+## Assignment
 
 Write a piece of code that takes a map of characters as an input and outputs the collected letters and the list of characters of the travelled path.
 
 Input:
 
-    a map (2-dimensional array) of characters in a data format of your choice (can even be hard-coded as a global constant)
+- a map (2-dimensional array) of characters in a data format of your choice (can even be hard-coded as a global constant)
 
 Output:
 
-    Collected letters
-    Path as characters
+- Collected letters
+- Path as characters
 
-What we are looking for in the solution
+## What we are looking for in the solution
 
-    readable code
-        small methods/functions/classes
-        good naming
-        minimise code duplication
-        separation of logic and scaffolding (e.g. walking around is separated from loading the map)
-    automated tests
-        high-level tests (i.e. acceptance tests) which test that the program gives correct output for a given input, according to examples specified below
-        unit tests which test small bits of logic separated from the rest of the program, e.g. advancing the current location based on the current direction
+- readable code
+    - small methods/functions/classes
+    - good naming
+    - minimise code duplication
+    - separation of logic and scaffolding (e.g. walking around is separated from loading the map)
+- automated tests
+    - high-level tests (i.e. acceptance tests) which test that the program gives correct output for a given input, according to examples specified below
+    - unit tests which test small bits of logic separated from the rest of the program, e.g. advancing the current location based on the current direction
 
-About testing
+### About testing
 
 At Software Sauna automated tests are a first-class citizen. This is why we encourage you to try writing some tests, even if you're not accustomed to doing so. An easy win is to start with the example maps provided.
-Specifications
-Valid maps
-A basic example
 
-@---A---+
-|
-x-B-+   C
-|   |
-+---+
+## Specifications
 
-Expected result:
+### Valid maps
 
-    Letters ACB
-    Path as characters @---A---+|C|+---+|+-B-x
+#### A basic example
 
-Go straight through intersections
-
-@
-| +-C--+
-A |    |
-+---B--+
-|      x
-|      |
-+---D--+
+```
+  @---A---+
+          |
+  x-B-+   C
+      |   |
+      +---+
+```
 
 Expected result:
+- Letters ```ACB```
+- Path as characters ```@---A---+|C|+---+|+-B-x```
 
-    Letters ABCD
-    Path as characters @|A+---B--+|+--C-+|-||+---D--+|x
+#### Go straight through intersections
 
-Letters may be found on turns
-
-@---A---+
-|
-x-B-+   |
-|   |
-+---C
+```
+  @
+  | +-C--+
+  A |    |
+  +---B--+
+    |      x
+    |      |
+    +---D--+
+```
 
 Expected result:
+- Letters ```ABCD```
+- Path as characters ```@|A+---B--+|+--C-+|-||+---D--+|x```
 
-    Letters ACB
-    Path as characters @---A---+|||C---+|+-B-x
+#### Letters may be found on turns
 
-Do not collect a letter from the same location twice
+```
+  @---A---+
+          |
+  x-B-+   |
+      |   |
+      +---C
+```
 
+Expected result:
+- Letters ```ACB```
+- Path as characters ```@---A---+|||C---+|+-B-x```
+
+#### Do not collect a letter from the same location twice
+
+```
      +-O-N-+
      |     |
      |   +-I-+
-@-G-O-+ | | |
-| | +-+ E
-+-+     S
-|
-x
+ @-G-O-+ | | |
+     | | +-+ E
+     +-+     S
+             |
+             x
+```
 
 Expected result:
+- Letters ```GOONIES```
+- Path as characters ```@-G-O-+|+-+|O||+-O-N-+|I|+-+|+-I-+|ES|x```
 
-    Letters GOONIES
-    Path as characters @-G-O-+|+-+|O||+-O-N-+|I|+-+|+-I-+|ES|x
+#### Keep direction, even in a compact space
 
-Keep direction, even in a compact space
-
-+-L-+
-|  +A-+
+```
+ +-L-+
+ |  +A-+
 @B+ ++ H
-++    x
+ ++    x
+```
 
 Expected result:
+- Letters ```BLAH```
+- Path as characters ```@B+++B|+-L-+A+++A-+Hx```
 
-    Letters BLAH
-    Path as characters @B+++B|+-L-+A+++A-+Hx
+#### Ignore stuff after end of path
 
-Ignore stuff after end of path
-
-@-A--+
-|
-+-B--x-C--D
+```
+  @-A--+
+       |
+       +-B--x-C--D
+```
 
 Expected result:
+- Letters ```AB```
+- Path as characters ```@-A--+|+-B--x```
 
-    Letters AB
-    Path as characters @-A--+|+-B--x
+### Invalid maps
 
-Invalid maps
-Missing start character
+#### Missing start character
 
+```
      -A---+
           |
-x-B-+   C
-|   |
-+---+
+  x-B-+   C
+      |   |
+      +---+
+```
 
 Expected result: Error
-Missing end character
 
-@--A---+
-|
-B-+   C
-|   |
-+---+
+#### Missing end character
 
-Expected result: Error
-Multiple starts
-
-@--A-@-+
-|
-x-B-+   C
-|   |
-+---+
-
-@--A---+
-|
-C
-x
-@-B-+
-
-@--A--x
-
-x-B-+
-|
-@
+```
+   @--A---+
+          |
+    B-+   C
+      |   |
+      +---+
+```
 
 Expected result: Error
-Fork in path
 
+#### Multiple starts
+
+```
+   @--A-@-+
+          |
+  x-B-+   C
+      |   |
+      +---+
+```
+
+```
+   @--A---+
+          |
+          C
+          x
+      @-B-+
+```
+
+```
+   @--A--x
+
+  x-B-+
+      |
+      @
+```
+
+Expected result: Error
+
+#### Fork in path
+
+```
         x-B
           |
-@--A---+
-|
-x+   C
-|   |
-+---+
+   @--A---+
+          |
+     x+   C
+      |   |
+      +---+
+```
 
 Expected result: Error
-Broken path
 
-@--A-+
-|
+#### Broken path
 
+```
+   @--A-+
+        |
+         
         B-x
+```
 
 Expected result: Error
-Multiple starting paths
 
-x-B-@-A-x
+#### Multiple starting paths
 
-Expected result: Error
-Fake turn
-
-@-A-+-B-x
+```
+  x-B-@-A-x
+```
 
 Expected result: Error
-Notes
 
-    the only valid characters are all uppercase letters (A-Z) and other characters appearing in the example maps; anything else found must result in an error
-    turns can be letters or +
-    input examples are jagged matrices - rows (lines) don't contain the same number of elements (characters): this is a valid form of input so keep that in mind
+#### Fake turn
 
+```
+  @-A-+-B-x
+```
+
+Expected result: Error
+
+
+## Notes
+
+- the only valid characters are all uppercase letters (`A`-`Z`) and other characters appearing in the example maps; anything else found must result in an error
+- turns can be letters or `+`
+- input examples are jagged matrices - rows (lines) don't contain the same number of elements (characters): this is a valid form of input so keep that in mind
+### Setup project
+
+1. Clone repository with `git clone`
+2. Install necessary modules with `npm i` or `npm install 
+3. Run tests with `npm test` or `npm run test`
+4. Or run project with `npm start` or `npm run start`
