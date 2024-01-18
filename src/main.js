@@ -38,6 +38,7 @@ function traverseMap(map) {
       }
 
       if (current === '+') {
+
         if (directionRow !== 0 && !map[row][col + 1] && !map[row][col - 1]) {
           throw Error('False turn not allowed');
         }
@@ -46,12 +47,14 @@ function traverseMap(map) {
         }
 
         if (directionCol !== 0) {
+          isForkInPath(map, startRow, startCol,'|');
           traverseDirection(row + 1, col, 1, 0);
           traverseDirection(row - 1, col, -1, 0);
           return;
         }
 
         if (directionRow !== 0) {
+          isForkInPath(map, startRow, startCol,'-');
           traverseDirection(row, col + 1, 0, 1);
           traverseDirection(row, col - 1, 0, -1);
           return;
@@ -65,7 +68,8 @@ function traverseMap(map) {
 
   const [startRow, startCol] = findStart(map);
   const [endRow, endCol] = findEnd(map);
-  isForkInPath(map, startRow, startCol);
+  isForkInPath(map, startRow, startCol,'-');
+  isForkInPath(map, startRow, startCol,'|');
   path += '@';
   traverseDirection(startRow, startCol + 1, 0, 1); // Right lookup
   traverseDirection(startRow, startCol - 1, 0, -1); // Left lookup

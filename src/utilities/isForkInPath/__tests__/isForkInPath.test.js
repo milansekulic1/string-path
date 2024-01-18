@@ -7,7 +7,7 @@ describe('checks for fork in the map', () => {
       .split('\n')
       .slice(1)
       .map((s) => s.split(''));
-    const isFork = () => isForkInPath(map, 0, 8);
+    const isFork = () => isForkInPath(map, 0, 8,'-');
     expect(isFork).toThrow('Fork in the path not allowed');
   });
 
@@ -25,7 +25,7 @@ describe('checks for fork in the map', () => {
       .slice(1)
       .map((s) => s.split(''));
 
-    const isFork = () => isForkInPath(map, 4, 4);
+    const isFork = () => isForkInPath(map, 4, 4,'|');
     expect(isFork).toThrow('Fork in the path not allowed');
   });
 

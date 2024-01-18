@@ -1,7 +1,7 @@
 
-const isForkInPath = (map,row,col)=>{
-    if(map[row+1]?.[col] === '|' && map[row-1]?.[col] === "|") throw Error('Fork in the path not allowed')
-    if(map[row]?.[col-1] === '-' && map[row]?.[col+1] === "-")throw Error('Fork in the path not allowed')
+const isForkInPath = (map,row,col,direction)=>{
+    if(direction === '|' && map[row+1]?.[col] === direction && map[row-1]?.[col] === direction) throw Error('Fork in the path not allowed')
+    if(direction === '-' && map[row]?.[col-1] === direction && map[row]?.[col+1] === direction)throw Error('Fork in the path not allowed')
 }
 
 module.exports = isForkInPath
